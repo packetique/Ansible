@@ -1,0 +1,4 @@
+[aws]
+ubuntu_18 ansible_host=3.121.112.144 ansible_user=ubuntu
+red_hat_8 ansible_host=3.122.51.137 ansible_user=ec2-user
+amazon_2 ansible_host=18.159.41.220 ansible_user=ec2-user

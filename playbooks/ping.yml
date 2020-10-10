@@ -1,0 +1,8 @@
+---
+- name: Test connection to servers
+  hosts: aws
+  become: true
+
+  tasks:
+  - name: Ping servers
+    ping:
