@@ -8,6 +8,6 @@
     ping servers from aws group
 
   apache.yml:
-    Istall Apache Web Server (if not exist)
-    Copy my test WebPage (index.html)  to server
-    Restart Apache service (if content changed)
+    Istall Apache Web Server (if not exist).
+    Copy my test WebPage (index.html)  to server.
+    Restart Apache service (if content changed).
