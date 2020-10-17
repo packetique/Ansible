@@ -126,15 +126,33 @@ resource "aws_instance" "amazon_linux_2" {
     Project = "Ansible learning"
   }
 }
+# Create EC2 instance with Ubuntu 16
+resource "aws_instance" "ubuntu_16" {
+  ami                         = "ami-0e23b14b492db6c67"
+  instance_type               = "t2.micro"
+  key_name                    = "frankfurt"
+  associate_public_ip_address = true
+  vpc_security_group_ids      = [aws_security_group.ansible_SG.id]
+  subnet_id                   = aws_subnet.ansible_subnet_public.id
+  tags = {
+    Name    = "Ubuntu 16"
+    Owner   = "Mikhail Volov"
+    Project = "Ansible learning"
+  }
+}
 
-output "Ubuntu_ip" {
+output "Ubuntu_18_ip" {
   value = aws_instance.ubuntu_18.public_ip
 }
 
-output "amazon_ip" {
-  value = aws_instance.amazon_linux_2.public_ip
+output "Ubuntu_16_ip" {
+  value = aws_instance.ubuntu_16.public_ip
 }
 
-output "redhat_ip" {
+output "redhat_8_ip" {
   value = aws_instance.red_hat_8.public_ip
+}
+
+output "amazon_2_ip" {
+  value = aws_instance.amazon_linux_2.public_ip
 }

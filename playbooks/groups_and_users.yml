@@ -1,0 +1,29 @@
+---
+# Create groups and users for aws servers
+
+- name: Create groups and users
+  hosts: aws
+  become: yes
+
+  tasks:
+
+  - name: Create groups # devops/dev/qa
+    group:
+      name: "{{item}}"
+      state: present
+    loop:
+      - devops
+      - dev
+      - qa
+
+  - name: Create users # devops/developer/tester
+    user:
+      name: "{{item.username}}"
+      shell: /bin/bash
+      groups: "{{item.groups}}"
+      append: yes
+      home: "/home/{{item.homedir}}"
+    with_items:
+      - {username: devops, groups: ["devops", "dev", "qa"], homedir: devops}
+      - {username: dev, groups: dev, homedir: dev}
+      - {username: tester, groups: qa, homedir: tester}

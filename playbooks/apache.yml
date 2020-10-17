@@ -1,8 +1,9 @@
 ---
+# Install Apache webserver, copy test webpage ans restart webserver if changed
+
 - name: Install Apache Web Server (restart if exist) and upload test WebPage
   hosts: aws
   become: yes
-
   vars:
     source:           /home/mikhail/ansible_learning/files/index.html
     destination:      /var/www/html/
@@ -21,7 +22,6 @@
       notify: Restart Apache service for RedHat-like OS
     when: ansible_os_family == "RedHat"
 
-
   - block:   # for Debian-like OS
     - name: Install Apache Web server for Debian-like OS
       apt: update_cache=yes name=apache2 state=present
@@ -33,7 +33,6 @@
       service: name=apache2 state=started enabled=yes
       notify: Restart Apache service for Debian-like OS
     when: ansible_os_family == "Debian"
-
 
   handlers:
    - name: Restart Apache service for RedHat-like OS
