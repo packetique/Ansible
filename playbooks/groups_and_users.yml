@@ -25,5 +25,5 @@
       home: "/home/{{item.homedir}}"
     with_items:
       - {username: devops, groups: ["devops", "dev", "qa"], homedir: devops}
-      - {username: dev, groups: dev, homedir: dev}
+      - {username: developer, groups: dev, homedir: developer}
       - {username: tester, groups: qa, homedir: tester}
