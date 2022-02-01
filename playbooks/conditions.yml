@@ -1,0 +1,63 @@
+---
+# Use conditions
+
+# - name: Check if file/directory exists
+#   hosts: "{{ hosts }}"
+#   become: true
+#   tasks:
+
+#     - name: check if exists and set result to variable stat_result
+#       stat:
+#         path: /tmp/file.txt
+#       register: stat_result
+
+#     - name: Create the file, if it doesnt exist
+#       file:
+#         path: /tmp/file.txt
+#         state: touch
+#       when: not stat_result.stat.exists
+
+#     - name: message
+#       debug:
+#         msg: "/tmp/file.txt file already exists"
+#       when: stat_result.stat.exists
+
+# - name: Install packages for different OS
+#   hosts: "{{ hosts }}"
+#   become: true
+#   gather_facts: false
+#   tasks:
+
+#     - name: Install package for RedHat based OS
+#       yum:
+#         name: tree
+#         state: present
+#       when: ansible_os_family == "RedHat"
+
+#     - name: Install package for Debian based OS
+#       apt:
+#         name: tree
+#         state: present
+#       when: ansible_os_family == "Debian"
+
+- name: Create directory if host in group
+  hosts: all
+  become: true
+  tasks:
+    - name: Create directory
+      file:
+        path: /tmp/mydir
+        state: directory
+      register: dir_created
+      when: inventory_hostname in groups['centos']
+
+    - name: Show message
+      debug:
+        msg: "Directory /tmp/mydir created on host {{ inventory_hostname }}"
+      when: dir_created
+
+    - name: Show message
+      debug:
+        msg: "{{ inventory_hostname }} not in inventory group CENTOS}"
+      when: inventory_hostname not in groups['centos']
+    

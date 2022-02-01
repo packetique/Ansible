@@ -1,0 +1,10 @@
+---
+- name: Show info
+  hosts: "{{ hosts }}"
+  become: true
+  tasks:
+    - name: show host info
+      debug:
+        msg:
+          - "{{ inventory_hostname }} {{ ansible_default_ipv4.address }}"
+          - "{{ ansible_distribution }}_{{ ansible_distribution_version }}  ({{ ansible_os_family }}) "

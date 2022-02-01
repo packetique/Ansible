@@ -1,0 +1,50 @@
+---
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html
+
+- name: Loops demonstaration
+  hosts: "{{ hosts }}"
+  become: true
+  tasks:
+
+    - name: Install packages
+    #  https://docs.ansible.com/ansible/2.9/modules/package_module.html
+      package:
+        name: "{{item}}"
+        state: latest  # present/absent/latest
+      loop:
+        - nano
+        - tree
+        - cowsay
+
+    - name: Create directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0775
+      loop:
+        - /app/data
+        - /app/config
+        - /app/content
+
+    - name: Create groups  # devops/dev/qa
+      group:
+        name: "{{item}}"
+        state: present
+      loop:
+        - devops
+        - dev
+        - qa
+    
+    - name: Create users  # devops/developer/tester
+      user:
+        name: "{{item.username}}"
+        shell: /bin/bash
+        groups: "{{item.groups}}"
+        append: yes
+        home: "/home/{{item.homedir}}"
+      with_items:
+        - {username: devops, groups: ["devops", "dev", "qa"], homedir: devops}
+        - {username: developer, groups: dev, homedir: developer}
+        - {username: tester, groups: qa, homedir: tester}

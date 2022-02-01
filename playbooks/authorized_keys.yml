@@ -1,0 +1,13 @@
+---
+# https://docs.ansible.com/ansible/2.4/authorized_key_module.html
+
+
+- name: Set authorized keys
+  hosts: "{{ hosts }}"
+  become: true
+  tasks:
+  - name: Set authorized keys from file
+    authorized_key:
+      user: admpack
+      state: present
+      key: "{{ lookup('file', '/home/admpack/.ssh/id_rsa.pub') }}"
